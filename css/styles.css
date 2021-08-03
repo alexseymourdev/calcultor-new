@@ -28,19 +28,20 @@
 
 .preview,
 .sum{
-    width:470px;
+    width:474px;
     height:30px;
-    border:none;
+    border:1px solid black;
 }
 .preview:focus,
 .sum:focus{
     outline: none;
 }
-
-.display_container{
-    border:1px solid black;
+.preview{
+    border-bottom:none;
 }
-
+.sum{
+    border-top:none;
+}
 .clear{
     width:480px;
     height:40px;
@@ -91,4 +92,8 @@
 }
 .operator:active{
     background-color:#2b98cf;
+}
+
+.clearfix{
+    clear:both;
 }
