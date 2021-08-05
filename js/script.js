@@ -31,7 +31,7 @@ let objCalculator = {
             // console.log(currentOperator);
             currentOperator.addEventListener('click',function(event){
                 let operator = event.target.innerHTML
-                _self.preview(number);
+                _self.preview(operator);
             });
         }
         this.objClear.addEventListener('click',function(event){
@@ -40,6 +40,21 @@ let objCalculator = {
     },
     preview:function(data){
         console.log(data);
+        let dataType = 'number';
+        switch(data){
+            case '+':
+            case '-':
+            case '/':
+            case '*':
+                dataType = 'operator';
+            break;
+        }
+        console.log(dataType);
+        if(dataType == 'number'){
+            // Do number logic
+        } else {
+            // DO operator logic
+        }
     },
     clear:function(){
         this.number1 = "";
