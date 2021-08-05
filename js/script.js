@@ -1,13 +1,25 @@
-// Number1, Number2, Operator
+let objCalculator = {
+    init:function(){
+        this.getAllElements();
+    },
+    getAllElements:function(){
+        this.objPreview = document.querySelector('.preview');
+        this.objSum = document.querySelector('.sum');
+        this.objClear = document.querySelector('.clear');
+        this.objDecimal = document.querySelector('.decimal');
+        this.objEquals = document.querySelector('.equals');
 
-// number1 {operator} number2
+        this.arrNumbers = document.querySelectorAll('.number');
+        this.arrOperators = document.querySelectorAll('.operator');
+    }
+}
 
-// 10 + 5
-// 10 - 5
-// 10 / 5
-// 10 * 5
+objCalculator.init();
+
+console.log(objCalculator);
 
 /*-- 
+Variables - Number1, Number2, Operator
 
 Cancel
     number1 = "";
