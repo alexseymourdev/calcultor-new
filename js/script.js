@@ -8,6 +8,7 @@ let objCalculator = {
     },
     getAllElements:function(){
         this.objPreview = document.querySelector('.preview');
+        this.objPrevious = document.querySelector('.previous');
         this.objSum = document.querySelector('.sum');
         this.objClear = document.querySelector('.clear');
         this.objDecimal = document.querySelector('.decimal');
@@ -70,11 +71,24 @@ let objCalculator = {
             }
         } else {
             if(this.number1){
-                this.operator = data;
+                if(this.number2){
+                    this.autoComplete(data);
+                } else {
+                    this.operator = data;
+                }
             } else {
                 // return error message
             }
         }
+        this.displayPreview();
+    },
+    autoComplete:function(operator){
+        let strPreviousSum = this.objPreview.value;
+        this.objPrevious.value = strPreviousSum;
+        let sum = this.calculate();
+        this.number1 = sum;
+        this.operator = operator;
+        this.number2 = '';
         this.displayPreview();
     },
     clear:function(){
@@ -83,6 +97,7 @@ let objCalculator = {
         this.operator = "";
         this.objPreview.value = "";
         this.objSum.value = "";
+        this.objPrevious.value = "";
     },
     displayPreview:function(){
         let strMessage = '';
@@ -99,7 +114,7 @@ let objCalculator = {
         this.equals();
     },
     equals:function(){
-        console.log('equals');
+        // console.log('equals');
         let blnCanDoMaths = true;
         if(!this.number1){
             blnCanDoMaths = false;
