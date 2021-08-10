@@ -49,6 +49,7 @@ let objCalculator = {
             case '-':
             case '/':
             case '*':
+            case '%':
                 dataType = 'operator';
             break;
         }
@@ -98,6 +99,60 @@ let objCalculator = {
     },
     equals:function(){
         console.log('equals');
+        let blnCanDoMaths = true;
+        if(!this.number1){
+            blnCanDoMaths = false;
+        }
+        if(!this.operator){
+            blnCanDoMaths = false;
+        }
+        if(!this.number2){
+            blnCanDoMaths = false;
+        }
+        if(blnCanDoMaths){
+            let sum = this.calculate();
+            if(sum !== false){
+                this.updateDisplay(sum);
+            }
+        } else {
+            console.log('you havent set enough variables');
+        }
+    },
+    updateDisplay:function(sum){
+        this.objSum.value = sum;
+    },
+    calculate:function(){
+        //declaring sum variable
+        let sum;
+        if(isNaN(this.number1)){
+            return 'Number1 needs to be a number';
+        }
+        if(isNaN(this.number2)){
+            return 'Number2 needs to be a number';
+        }
+        //switch statement for operator
+        switch(this.operator){
+            case '+':
+                sum = parseFloat(this.number1) + parseFloat(this.number2);
+            break;
+            case '-':
+                sum = parseFloat(this.number1) - parseFloat(this.number2);
+            break;
+            case '/':
+                sum = parseFloat(this.number1) / parseFloat(this.number2);
+            break;
+            case '*':
+            case 'x':
+                sum = parseFloat(this.number1) * parseFloat(this.number2);
+            break;
+            case '%':
+                sum = parseFloat(this.number1) % parseFloat(this.number2);
+            break;
+            default:
+                sum = false;
+                // Error message 'You have used an unrecognised operator: ' + this.operator;
+        }
+        return sum;
     }
 }
 
