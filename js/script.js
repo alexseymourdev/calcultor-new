@@ -96,6 +96,7 @@ let objCalculator = {
             strMessage += ' '+this.number2;
         }
         this.objPreview.value = strMessage;
+        this.equals();
     },
     equals:function(){
         console.log('equals');

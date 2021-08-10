@@ -27,17 +27,23 @@
 }
 
 .preview,
+.previous,
 .sum{
     width:474px;
     height:30px;
     border:1px solid black;
 }
 .preview:focus,
+.previous:focus,
 .sum:focus{
     outline: none;
 }
+.previous{
+    border-bottom:none;
+}
 .preview{
     border-bottom:none;
+    border-top:none;
 }
 .sum{
     border-top:none;
