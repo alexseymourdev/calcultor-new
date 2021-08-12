@@ -2,7 +2,8 @@ let objCalculator = {
     number1:'',
     number2:'',
     operator:'',
-    operator:'',
+    blnEquals:false,
+    blnEqualsSuccess:false,
     init:function(){
         this.getAllElements();
         this.addEventListeners();
@@ -40,6 +41,7 @@ let objCalculator = {
             _self.clear();
         });
         this.objEquals.addEventListener('click',function(event){
+            _self.blnEquals = true;
             _self.equals();
         });
         this.objDecimal.addEventListener('click',function(event){
@@ -48,7 +50,11 @@ let objCalculator = {
         });
     },
     preview:function(data){
-        console.log(data);
+        // console.log(data);
+        if(this.blnEqualsSuccess){
+            this.clear();
+            this.blnEqualsSuccess = false;
+        }
         let dataType = 'number';
         switch(data){
             case '+':
@@ -163,7 +169,7 @@ let objCalculator = {
         this.equals();
     },
     equals:function(){
-        // console.log('equals');
+        console.log(this.blnEquals);
         let blnCanDoMaths = true;
         if(!this.number1){
             blnCanDoMaths = false;
@@ -178,10 +184,20 @@ let objCalculator = {
             let sum = this.calculate();
             if(sum !== false){
                 this.updateDisplay(sum);
+                if(this.blnEquals){
+                    let strPreviousSum = this.objPreview.value;
+                    this.objPrevious.value = strPreviousSum;
+                    this.objPreview.value = "";
+                    this.number1 = "";
+                    this.number2 = "";
+                    this.operator = "";
+                    this.blnEqualsSuccess = true;
+                }
             }
         } else {
             console.log('you havent set enough variables');
         }
+        this.blnEquals = false;
     },
     updateDisplay:function(sum){
         this.objSum.value = sum;
