@@ -206,6 +206,7 @@ let objCalculator = {
         this.blnEqualsSuccess=false;
         this.errorMessageTimeout=false;
     },
+    // this function prepares the message to be output in objPreview and calls the equals function to complete the maths
     displayPreview:function(){
         let strMessage = '';
         if(this.number1){
@@ -220,8 +221,10 @@ let objCalculator = {
         this.objPreview.value = strMessage;
         this.equals();
     },
+    //this function will validate if all of the variables that need to be set have been set and then output the sum
     equals:function(){
         // console.log(this.blnEquals);
+        // setting the default value of this boolean to assume validation will pass and then setting to false if validation fails
         let blnCanDoMaths = true;
         if(!this.number1){
             blnCanDoMaths = false;
@@ -232,10 +235,12 @@ let objCalculator = {
         if(!this.number2){
             blnCanDoMaths = false;
         }
+        //if validation passes call the calculate function and update the displays as required
         if(blnCanDoMaths){
             let sum = this.calculate();
             if(sum !== false){
                 this.updateDisplay(sum);
+                // if the equals button was pressed, the displays need to output differently to if a number, operator or decimal preview function called the equals function
                 if(this.blnEquals){
                     let strPreviousSum = this.objPreview.value;
                     this.objPrevious.value = strPreviousSum;
@@ -251,11 +256,14 @@ let objCalculator = {
                 this.outputError('you havent set enough variables');
             }
         }
+        // set blnEquals back to default value
         this.blnEquals = false;
     },
+    // this function updates objSum with the value passed through
     updateDisplay:function(sum){
         this.objSum.value = sum;
     },
+    //this function does the maths when validation has determined that maths can be done
     calculate:function(){
         //declaring sum variable
         let sum;
@@ -289,17 +297,23 @@ let objCalculator = {
         }
         return sum;
     },
+    // this function will output an error message passed as an argument
     outputError:function(strErrorMessage){
+        // see note for self in event listener fucntion
         _self = this;
+        //clear any existing timeout function set on this variable
         clearTimeout(this.errorMessageTimeout);
+        // update the innerHTML of the hidden HTML element
         this.objErrorMessage.innerHTML = strErrorMessage;
+        // display the HTML element after message is set
         this.objErrorMessage.style.display = 'block';
+        //add a timeout function to hide the error message after 2500 miliseconds
         this.errorMessageTimeout = setTimeout(function(){
             _self.objErrorMessage.style.display = 'none';
         }, 2500);
     }
 }
-
+// initialize object
 objCalculator.init();
 
 console.log(objCalculator);
