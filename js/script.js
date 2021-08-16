@@ -4,6 +4,7 @@ let objCalculator = {
     operator:'',
     blnEquals:false,
     blnEqualsSuccess:false,
+    errorMessageTimeout:false,
     init:function(){
         this.getAllElements();
         this.addEventListeners();
@@ -15,6 +16,7 @@ let objCalculator = {
         this.objClear = document.querySelector('.clear');
         this.objDecimal = document.querySelector('.decimal');
         this.objEquals = document.querySelector('.equals');
+        this.objErrorMessage = document.querySelector('.error_message');
 
         this.arrNumbers = document.querySelectorAll('.number');
         this.arrOperators = document.querySelectorAll('.operator');
@@ -94,7 +96,7 @@ let objCalculator = {
                         this.operator = data;
                     }
                 } else {
-                    // return error message
+                    this.outputError('You cannot set an operator without number1 having a value');
                 }
             }
         }
@@ -105,6 +107,8 @@ let objCalculator = {
             if(this.number2){
                 if(!this.hasDecimal('number2')){
                     this.number2 += '.';
+                } else {
+                    this.outputError('Number2 already has a decimal');
                 }
             } else {
                 this.number2 = '0.';
@@ -113,6 +117,8 @@ let objCalculator = {
             if(this.number1){
                 if(!this.hasDecimal('number1')){
                     this.number1 += '.';
+                } else {
+                    this.outputError('Number1 already has a decimal');
                 }
             } else {
                 this.number1 = '0.';
@@ -125,13 +131,13 @@ let objCalculator = {
             case 'number1':
                 if(this.number1.indexOf('.') !== -1){
                     blnHasDecimal = true;
-                    console.log('you already have a decimal point on number1');
+                    this.outputError('you already have a decimal point on number1');
                 }
             break;
             case 'number2':
                 if(this.number2.indexOf('.') !== -1){
                     blnHasDecimal = true;
-                    console.log('you already have a decimal point on number2');
+                    this.outputError('you already have a decimal point on number2');
                 } 
             break;
         }
@@ -169,7 +175,7 @@ let objCalculator = {
         this.equals();
     },
     equals:function(){
-        console.log(this.blnEquals);
+        // console.log(this.blnEquals);
         let blnCanDoMaths = true;
         if(!this.number1){
             blnCanDoMaths = false;
@@ -195,7 +201,9 @@ let objCalculator = {
                 }
             }
         } else {
-            console.log('you havent set enough variables');
+            if(this.blnEquals){
+                this.outputError('you havent set enough variables');
+            }
         }
         this.blnEquals = false;
     },
@@ -206,10 +214,10 @@ let objCalculator = {
         //declaring sum variable
         let sum;
         if(isNaN(this.number1)){
-            return 'Number1 needs to be a number';
+            this.outputError('Number1 needs to be a number');
         }
         if(isNaN(this.number2)){
-            return 'Number2 needs to be a number';
+            this.outputError('Number2 needs to be a number');
         }
         //switch statement for operator
         switch(this.operator){
@@ -231,9 +239,18 @@ let objCalculator = {
             break;
             default:
                 sum = false;
-                // Error message 'You have used an unrecognised operator: ' + this.operator;
+                this.outputError('You have used an unrecognised operator: ' + this.operator)
         }
         return sum;
+    },
+    outputError:function(strErrorMessage){
+        _self = this;
+        clearTimeout(this.errorMessageTimeout);
+        this.objErrorMessage.innerHTML = strErrorMessage;
+        this.objErrorMessage.style.display = 'block';
+        this.errorMessageTimeout = setTimeout(function(){
+            _self.objErrorMessage.style.display = 'none';
+        }, 2500);
     }
 }
 
